@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\warning_yellow.png",
+        "source": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\src\\main\\res\\drawable-mdpi\\warning_yellow.png"
+    },
+    {
+        "merged": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\ic_launcher.png",
+        "source": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\warning_red.png",
+        "source": "C:\\Users\\geral\\AndroidStudioProjects\\Lab4_UILabs\\app\\src\\main\\res\\drawable-mdpi\\warning_red.png"
+    }
+]
