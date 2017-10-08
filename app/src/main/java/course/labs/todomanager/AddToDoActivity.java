@@ -30,6 +30,9 @@ public class AddToDoActivity extends Activity {
 
 	private static final String TAG = "Lab-UserInterface";
 
+	private static boolean edit;
+	private static int position = 0;
+
 	private static String timeString;
 	private static String dateString;
 	private static TextView dateView;
@@ -55,9 +58,11 @@ public class AddToDoActivity extends Activity {
 		dateView = (TextView) findViewById(R.id.date);
 		timeView = (TextView) findViewById(R.id.time);
 
-		// Установка даты и времени по умолчанию
+		edit = false;
         Intent intent = getIntent();
         if(intent.getBooleanExtra("edit", false)){
+			edit = true;
+			position = intent.getIntExtra("position",0);
             mTitleText.setText(intent.getStringExtra("title"));
 			int prId = mDefaultPriorityButton.getId();
 			switch (Priority.valueOf(intent.getStringExtra("priority"))) {
@@ -72,10 +77,11 @@ public class AddToDoActivity extends Activity {
 				case NOTDONE: stId = R.id.statusNotDone; break;
 			}
 			mStatusRadioGroup.check(stId);
-			dateView.setText(intent.getStringExtra("date"));
-			setDateString(intent.getIntExtra("year",0),intent.getIntExtra("month",0),intent.getIntExtra("day",0));
-			setTimeString(intent.getIntExtra("hours",0),intent.getIntExtra("minutes",0),0);
-			dateView.setText(dateString);
+			//setDateString(intent.getIntExtra("year",0),intent.getIntExtra("month",0),intent.getIntExtra("day",0));
+			//setTimeString(intent.getIntExtra("hours",0),intent.getIntExtra("minutes",0),0);
+			dateString = intent.getStringExtra("date");
+			timeString = intent.getStringExtra("time");
+            dateView.setText(dateString);
 			timeView.setText(timeString);
         } else {
             setDefaultDateTime();
@@ -154,6 +160,10 @@ public class AddToDoActivity extends Activity {
 				Intent data = new Intent();
 				ToDoItem.packageIntent(data, titleString, priority, status,
 						fullDate);
+
+				if (edit) {
+					data.putExtra("position",position);
+				}
 
 				setResult(RESULT_OK, data);
 				finish();

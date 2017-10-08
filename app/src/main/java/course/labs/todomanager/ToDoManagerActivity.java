@@ -71,12 +71,15 @@ public class ToDoManagerActivity extends ListActivity {
 	public void StartEditToDoItem(int position, ToDoItem toDoItem) {
 		Intent editToDoItemIntent = new Intent(this, AddToDoActivity.class);
 		ToDoItem.packageIntent(editToDoItemIntent,toDoItem.getTitle(),toDoItem.getPriority(),toDoItem.getStatus(),"");
+		editToDoItemIntent.putExtra("position", position);
 		editToDoItemIntent.putExtra("edit", true);
-		editToDoItemIntent.putExtra("year",toDoItem.getDate().getYear());
+		editToDoItemIntent.putExtra("date",ToDoItem.DATE_FORMAT.format(toDoItem.getDate()));
+		editToDoItemIntent.putExtra("time",ToDoItem.TIME_FORMAT.format(toDoItem.getDate()));
+		/*editToDoItemIntent.putExtra("year",toDoItem.getDate().getYear());
 		editToDoItemIntent.putExtra("month",toDoItem.getDate().getMonth());
 		editToDoItemIntent.putExtra("day",toDoItem.getDate().getDay());
 		editToDoItemIntent.putExtra("hours",toDoItem.getDate().getHours());
-		editToDoItemIntent.putExtra("minutes",toDoItem.getDate().getMinutes());
+		editToDoItemIntent.putExtra("minutes",toDoItem.getDate().getMinutes());*/
 
 		startActivityForResult(editToDoItemIntent, EDIT_TODO_ITEM_REQUEST);
 	}
@@ -90,6 +93,10 @@ public class ToDoManagerActivity extends ListActivity {
 			if (resultCode == RESULT_OK) {
 				ToDoItem newItem = new ToDoItem(data);
 				mAdapter.add(newItem);
+			}
+		} else if (requestCode == EDIT_TODO_ITEM_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				mAdapter.edit(data.getIntExtra("position", 0), data);
 			}
 		}
 

@@ -27,6 +27,10 @@ public class ToDoItem {
 
 	public final static SimpleDateFormat FORMAT = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss", Locale.US);
+	public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+			"yyyy-MM-dd", Locale.US);
+	public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat(
+			"HH:mm:ss", Locale.US);
 
 	private String mTitle = new String();
 	private Priority mPriority = Priority.LOW;
@@ -44,6 +48,10 @@ public class ToDoItem {
 
 	ToDoItem(Intent intent) {
 
+		setFromIntent(intent);
+	}
+
+	public void setFromIntent(Intent intent) {
 		mTitle = intent.getStringExtra(ToDoItem.TITLE);
 		mPriority = Priority.valueOf(intent.getStringExtra(ToDoItem.PRIORITY));
 		mStatus = Status.valueOf(intent.getStringExtra(ToDoItem.STATUS));

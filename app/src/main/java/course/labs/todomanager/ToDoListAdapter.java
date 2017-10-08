@@ -41,6 +41,14 @@ public class ToDoListAdapter extends BaseAdapter {
 
 	}
 
+	public void edit(int position, Intent data) {
+		ToDoItem item = mItems.get(position);
+		if (item != null) {
+			item.setFromIntent(data);
+			notifyDataSetChanged();
+		}
+	}
+
 	// Очищаем список адаптеров от всех элементов.
 
 	public void clear() {
@@ -117,6 +125,7 @@ public class ToDoListAdapter extends BaseAdapter {
 			holder.statusView.setChecked(true);
 			itemLayout.setBackgroundColor(mContext.getResources().getColor(R.color.done_background));
 		} else {
+			holder.statusView.setChecked(false);
 			itemLayout.setBackgroundColor(mContext.getResources().getColor(R.color.primary));
 		}
 
