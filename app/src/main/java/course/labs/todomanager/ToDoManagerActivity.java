@@ -17,11 +17,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
@@ -36,6 +38,8 @@ public class ToDoManagerActivity extends ListActivity {
 	// ID для элментов меню
 	private static final int MENU_DELETE = Menu.FIRST;
 	private static final int MENU_DUMP = Menu.FIRST + 1;
+
+	private static int selectedItem = 0;
 
 	ToDoListAdapter mAdapter;
 
@@ -60,6 +64,7 @@ public class ToDoManagerActivity extends ListActivity {
 		});
 
 		getListView().setAdapter(mAdapter);
+		registerForContextMenu(getListView());
 	}
 
 	public void StartAddToDoItem() {
@@ -213,5 +218,34 @@ public class ToDoManagerActivity extends ListActivity {
 				writer.close();
 			}
 		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+									ContextMenu.ContextMenuInfo menuInfo) {
+		if (v.getId()== getListView().getId()) {
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+			menu.setHeaderTitle( ((ToDoItem) mAdapter.getItem(info.position)).getTitle());
+			menu.add(Menu.NONE, 0, 0, "Edit");
+			menu.add(Menu.NONE, 1, 1, "Delete");
+			selectedItem = info.position;
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		int menuItemIndex = item.getItemId();
+		switch (menuItemIndex) {
+			case 0: {
+				this.StartEditToDoItem(selectedItem, (ToDoItem) mAdapter.getItem(selectedItem));
+				break;
+			}
+			case 1: {
+				mAdapter.delete(selectedItem);
+				break;
+			}
+		}
+		return true;
 	}
 }

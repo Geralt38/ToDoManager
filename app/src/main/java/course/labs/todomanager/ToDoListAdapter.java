@@ -6,9 +6,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,6 +50,11 @@ public class ToDoListAdapter extends BaseAdapter {
 			item.setFromIntent(data);
 			notifyDataSetChanged();
 		}
+	}
+
+	public void delete(int position) {
+		mItems.remove(position);
+		notifyDataSetChanged();
 	}
 
 	// Очищаем список адаптеров от всех элементов.
@@ -177,16 +185,30 @@ public class ToDoListAdapter extends BaseAdapter {
 			}
 		});
 
+		/*itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+
+				return true;
+			}
+		});*/
+		itemLayout.setOnCreateContextMenuListener( new View.OnCreateContextMenuListener() {
+			@Override
+			public void onCreateContextMenu(ContextMenu menu, View v,
+											ContextMenu.ContextMenuInfo menuInfo) {
+					/*AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+					menu.setHeaderTitle( ((ToDoItem) mItems.get(info.position)).getTitle());
+					menu.add(Menu.NONE, 0, 0, "Delete");
+					menu.add(Menu.NONE, 1, 1, "Edit");*/
+			}
+		});
+
+
 		// Возвращает View которое только что создали
 		return itemLayout;
 
 	}
 
-	/*public void StartEditToDoItem() {
-		Intent addToDoItemIntent = new Intent(this, AddToDoActivity.class);
-
-		startActivityForResult(addToDoItemIntent, ADD_TODO_ITEM_REQUEST);
-	}*/
 
 	public static class ViewHolder {
 		public TextView titleView;
